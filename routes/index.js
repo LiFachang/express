@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next) {
-  console.log(1);
   let userName = req.body.userName;
   let userPwd = req.body.userPwd;
   db.query('select * from user where userName=?',[userName], (err, results, fields) => {
@@ -24,7 +23,7 @@ router.post('/register', function(req, res, next) {
           if (err) {
             throw err;
           } else {
-            res.json({code: 0});
+            res.json({code: 0, message: '注册成功！'});
           }
         });
       }
