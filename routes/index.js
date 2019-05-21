@@ -19,7 +19,10 @@ router.post('/register', function(req, res, next) {
       if (results.length > 0) {
         res.json({code: 1, message: '已存在用户名'})
       } else {
-        db.query('insert into user value (?, ?, ?)', [0, userName, userPwd], (err, results, fields) => {
+        let createtime = parseInt(new Date().getTime().toString().substr(0, 10));
+        console.log('createtime:', createtime);
+        // id(自增), userName, userPwd, type(0普通用户，1管理员)，status(0正常，1删除), createtime
+        db.query('insert into user value (?, ?, ?, ?, ?, ?, ?)', [0, userName, userPwd, 0, 0, createtime, 0], (err, results, fields) => {
           if (err) {
             throw err;
           } else {
