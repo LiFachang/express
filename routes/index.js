@@ -16,7 +16,7 @@ router.post('/register', function(req, res, next) {
       throw err;
     } else {
       if (results.length > 0) {
-        res.json({code: 1, message: '已存在用户名'})
+        res.json({code: 1, message: '注册失败，已存在该用户名'})
       } else {
         let createtime = parseInt(new Date().getTime().toString().substr(0, 10));
         // id(自增), userName, userPwd, type(0普通用户，1管理员)，status(0正常，1删除), createtime
@@ -24,7 +24,7 @@ router.post('/register', function(req, res, next) {
           if (err) {
             throw err;
           } else {
-            res.json({code: 0, message: '注册成功！'});
+            res.json({code: 0, message: '注册成功，去登陆'});
           }
         });
       }
