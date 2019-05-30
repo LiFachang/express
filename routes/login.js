@@ -9,10 +9,9 @@ var db = require('../sql');
 // });
 router.post('/test', (req, res ,next)=> {
   console.log('***********************');
-  console.log(req.signedCookies.token);
-  console.log(req.body.data);
+  console.log(req.signedCookies.userID);
   console.log('***********************');
-  res.json({code: 0, token: req.signedCookies.token || 'cookie已失效', data: req.body.data});
+  res.json({code: 0, token: req.signedCookies.userID || 'cookie已失效', data: req.body.data});
 });
 
 router.post('/', function(req, res, next) {
@@ -24,9 +23,8 @@ router.post('/', function(req, res, next) {
     if (err) {
       throw err;
     } else {
-      console.log('查询结果：', results);
       if (results.length > 0) {
-        res.cookie("token",'ABCDEFG',{maxAge: 1800000, httpOnly: true, signed: true});
+        res.cookie("userID", results[0].id, {maxAge: 3600 * 1000, httpOnly: true, signed: true, domain: '127.0.0.1'});
         res.json({code: 0, message: '登录成功'})
       } else {
         res.json({code: 1, message: '用户名或密码错误'})
