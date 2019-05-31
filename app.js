@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
 var addArticleRouter = require('./routes/addArticle');
+var getArticleRouter = require('./routes/getArticle');
 
 var app = express();
 
@@ -53,6 +54,7 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/addArticle', addArticleRouter);
+app.use('/getArticle', getArticleRouter);
 
 
 
