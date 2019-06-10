@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path')
 var router = express.Router();
 var db = require('../sql');
+let host = 'http://140.143.163.171/'
 
 
 router.post('/', function(req, res, next) {

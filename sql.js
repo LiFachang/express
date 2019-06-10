@@ -1,6 +1,7 @@
 const mysql = require('mysql');
+const isOnLine = require('./isOnLine')
 
-let onLine = 0; // 1线上， 2线下
+let onLine = isOnLine; // 1线上， 0线下
 let host = '';
 
 if (onLine) {
