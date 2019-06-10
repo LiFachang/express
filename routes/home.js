@@ -2,6 +2,17 @@ var express = require('express');
 var router = express.Router();
 var db = require('../sql');
 
+router.post('/getArticleList', (req, res, next) => {
+  let sql = `select user.id, user.name, user.head_photo, article.id, article.type, article.title, article.content, article.read, article.comment, article.fabulous, article.createtime from user inner join article on user.id=article.author`;
+  db.query({sql, nestTables:'_'}, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.json({code: 0, data: result})
+    }
+  });
+});
+
 
 
 router.post('/', function(req, res, next) {
@@ -19,8 +30,7 @@ router.post('/', function(req, res, next) {
           res.json({code: 1, message: '发布失败，您已发布过同名文章'});
         } else {
           let content = req.body.content.trim();
-          let createtime = new Date().getTime().toString().substr(0, 10);
-          let sql = `INSERT INTO article(author, type, title, content, createtime) VALUES('${user_id}', '${type}', '${title}', '${content}', '${createtime}')`;
+          let sql = `INSERT INTO article(author, type, title, content) VALUES('${user_id}', '${type}', '${title}', '${content}')`;
           db.query(sql, (err, result, fields) => {
             if (err) {
               throw err;

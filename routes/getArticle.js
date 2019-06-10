@@ -24,9 +24,9 @@ router.post('/', function(req, res, next) {
   let type = req.body.type;
   if (type === 1) {
     let title = req.body.title.trim();
-    let userID = req.signedCookies.userID;
+    let user_id = req.signedCookies.user_id;
     // 检查文章标题重名
-    let sql = `select * from article where binary title='${title}' and author='${userID}'`;
+    let sql = `select * from article where binary title='${title}' and author='${user_id}'`;
     db.query(sql, (err, results, fields) => {
       if (err) {
         throw err
@@ -35,7 +35,7 @@ router.post('/', function(req, res, next) {
           res.json({code: 1, message: '发布失败，您已发布过同名文章'});
         } else {
           let content = req.body.content.trim();
-          let sql = `INSERT INTO article(author, type, title, content) VALUES('${userID}', '${type}', '${title}', '${content}')`;
+          let sql = `INSERT INTO article(author, type, title, content) VALUES('${user_id}', '${type}', '${title}', '${content}')`;
           db.query(sql, (err, result, fields) => {
             if (err) {
               throw err;

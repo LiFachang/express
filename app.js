@@ -9,6 +9,8 @@ var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
 var addArticleRouter = require('./routes/addArticle');
 var getArticleRouter = require('./routes/getArticle');
+var homeRouter = require('./routes/home');
+var updateUserInfoRouter = require('./routes/updateUserInfo');
 
 var app = express();
 
@@ -33,9 +35,11 @@ app.use(cookieParser('lifachang')); // 配置cookie-parser中间件，xxx表示�
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-  if (!req.signedCookies.userID) {
+  if (!req.signedCookies.user_id) {
     console.log('无cookie');
-    if (req.originalUrl !== '/login' && req.originalUrl !== '/register' ) {
+    if (req.originalUrl !== '/login' &&
+        req.originalUrl !== '/register' &&
+        req.originalUrl !== '/home/getArticleList') {
       console.log('跳去登录页');
       res.status(401).json({code: 30001});
       return
@@ -55,6 +59,8 @@ app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/addArticle', addArticleRouter);
 app.use('/getArticle', getArticleRouter);
+app.use('/home', homeRouter);
+app.use('/updateUserInfo', updateUserInfoRouter);
 
 
 
