@@ -11,19 +11,10 @@ var addArticleRouter = require('./routes/addArticle');
 var getArticleRouter = require('./routes/getArticle');
 var homeRouter = require('./routes/home');
 var updateUserInfoRouter = require('./routes/updateUserInfo');
+var getUserAllInfoRouter = require('./routes/getUserAllInfo');
 
 var app = express();
 
-
-
-// 解决跨域
-app.all('*',function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://140.141.163.171:81");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  next();
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +24,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('lifachang')); // 配置cookie-parser中间件，xxx表示加密的随机数(相当于密钥)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/blog')));
 
 app.use(function(req, res, next) {
   if (!req.signedCookies.user_id) {
@@ -62,6 +53,7 @@ app.use('/addArticle', addArticleRouter);
 app.use('/getArticle', getArticleRouter);
 app.use('/home', homeRouter);
 app.use('/updateUserInfo', updateUserInfoRouter);
+app.use('/getUserAllInfo', getUserAllInfoRouter);
 
 
 
@@ -80,6 +72,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 
 
