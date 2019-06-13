@@ -29,9 +29,11 @@ app.use(express.static(path.join(__dirname, 'public/blog')));
 app.use(function(req, res, next) {
   if (!req.signedCookies.user_id) {
     console.log('无cookie');
+    console.log(req.originalUrl);
     if (req.originalUrl !== '/login' &&
         req.originalUrl !== '/register' &&
-        req.originalUrl !== '/home/getArticleList') {
+        req.originalUrl !== '/home/getArticleList' &&
+        req.originalUrl.indexOf('images/avatar') < 0) {
       console.log('跳去登录页');
       res.status(401).json({code: 30001});
       return
