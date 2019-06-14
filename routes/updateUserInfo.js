@@ -43,7 +43,7 @@ router.post('/', function(req, res, next) {
               throw err
             } else {
               // console.log(result)
-              res.json({code: 0, message: 'ok'});
+              res.json({code: 0, message: 'ok', data: avatarPath});
             }
           })
 
@@ -55,9 +55,26 @@ router.post('/', function(req, res, next) {
     console.log('=================');
     console.log(req.body);
     let obj = req.body;
-    for (let key in req.body) {
-
+    delete obj.dataType;
+    let sql = 'update user set '
+    for (let key in obj) {
+      if (key === 'sex' || key === 'age') {
+        sql += `${key}=${obj[key]},`
+      } else {
+        sql += `${key}='${obj[key]}',`
+      }
     }
+    sql = sql.substring(0, sql.length - 1);
+    sql += ` WHERE id=${req.signedCookies.user_id}`;
+    db.query(sql, (err, result, fields) => {
+      if (err) {
+        console.log(err)
+        res.json({code: 1, message: '更新失败'})
+      } else {
+        res.json({code: 0, message: '更新成功'})
+      }
+    })
+    console.log(sql);
     console.log('=================');
   }
 });

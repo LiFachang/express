@@ -19,8 +19,17 @@ router.post('/', function(req, res, next) {
       throw err;
     } else {
       if (results.length > 0) {
+        console.log(results);
+        let data = {
+          name: results[0].name,
+          sex: results[0].sex,
+          age: results[0].age,
+          tel: results[0].tel,
+          email: results[0].email,
+          head_photo: 'http://140.143.163.171:8888/' + results[0].head_photo
+        }
         res.cookie("user_id", results[0].id, {maxAge: 3600 * 1000, httpOnly: true, signed: true});
-        res.json({code: 0, message: '登录成功'})
+        res.json({code: 0, message: '登录成功', data})
       } else {
         res.json({code: 1, message: '用户名或密码错误'})
       }
